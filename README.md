@@ -28,8 +28,6 @@ The catalog of template repos already exists:
   — the minimal Astro directory.
 - [`ever-works/ever-works-website-template`](https://github.com/ever-works/ever-works-website-template)
   — the marketing-site shape.
-- [`ever-works/awesome-starters`](https://github.com/ever-works/awesome-starters)
-  — boilerplates and starter kits.
 
 This repo doesn't duplicate any of that. It exists to:
 
@@ -73,7 +71,6 @@ truth; blueprints only override per-shape.
 | `marketing-site` | `ever-works/ever-works-website-template` | Production. |
 | `company` | TBD | Builder UX in flight (PR #1123 docs). |
 | `store` | TBD | Builder UX in flight (PR #1123 docs). |
-| `desktop-app` | TBD | Builder UX in flight (PR #1123 docs). |
 
 ## Why this repo even exists
 
@@ -87,7 +84,7 @@ keeps the wizard's content layer separate from its code layer.
 
 1. **The wizard already knows about the production template repos.**
    No regression to fix.
-2. **The Company / Store / Desktop builders are mid-flight.** We
+2. **The Company / Store builders are mid-flight.** We
    don't want to publish a stub blueprint that points at a
    not-yet-public template repo.
 3. **The blueprint schema is still in flux** — it will likely take
