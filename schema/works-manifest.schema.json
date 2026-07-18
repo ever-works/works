@@ -1,0 +1,72 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://ever.works/schema/works-manifest.schema.json",
+	"title": "Ever Works works catalog manifest",
+	"type": "object",
+	"required": ["version", "blueprints"],
+	"additionalProperties": false,
+	"properties": {
+		"$schema": { "type": "string" },
+		"version": { "const": 1 },
+		"generatedBy": { "type": "string" },
+		"blueprints": {
+			"type": "array",
+			"items": { "$ref": "#/$defs/blueprint" }
+		}
+	},
+	"$defs": {
+		"blueprint": {
+			"type": "object",
+			"required": ["slug", "name", "title", "summary", "kind", "chipType", "status", "template"],
+			"additionalProperties": false,
+			"properties": {
+				"slug": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,60}$" },
+				"name": { "type": "string", "minLength": 1, "maxLength": 120 },
+				"title": { "type": "string", "minLength": 1, "maxLength": 160 },
+				"summary": { "type": "string", "minLength": 1, "maxLength": 500 },
+				"kind": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+				"chipType": {
+					"enum": ["directory", "company", "store", "blog", "landing", "awesome", "marketing", "desktop"]
+				},
+				"category": { "type": "string", "minLength": 1, "maxLength": 60 },
+				"tags": {
+					"type": "array",
+					"items": { "type": "string", "maxLength": 60 },
+					"maxItems": 8
+				},
+				"isOrganization": { "type": "boolean" },
+				"default": { "type": "boolean" },
+				"featured": { "type": "boolean" },
+				"status": { "enum": ["production", "beta", "placeholder"] },
+				"avatarIcon": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+				"template": { "$ref": "#/$defs/template" }
+			}
+		},
+		"template": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["repo"],
+			"properties": {
+				"repo": {
+					"description": "Owner/name of the upstream template repo to fork. Must be null when status is placeholder; otherwise ^ever-works/<name>$.",
+					"oneOf": [
+						{ "type": "string", "pattern": "^ever-works/[a-z0-9-]+$" },
+						{ "type": "null" }
+					]
+				},
+				"ref": {
+					"description": "Branch to fork from. Ignored when sha is set.",
+					"type": ["string", "null"]
+				},
+				"sha": {
+					"description": "Pinned commit; takes precedence over ref when non-null.",
+					"type": ["string", "null"]
+				},
+				"isGitHubTemplate": {
+					"description": "True when repo is a GitHub template repository (generate-from-template), false for a plain fork/clone.",
+					"type": "boolean"
+				}
+			}
+		}
+	}
+}

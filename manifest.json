@@ -1,0 +1,168 @@
+{
+	"$schema": "./schema/works-manifest.schema.json",
+	"version": 1,
+	"generatedBy": "manual",
+	"blueprints": [
+		{
+			"slug": "directory",
+			"name": "Directory",
+			"title": "Directory Website",
+			"summary": "Standard Next.js directory site with categories, search, submissions, and SEO defaults — the flagship Work shape.",
+			"kind": "DIRECTORY",
+			"chipType": "directory",
+			"category": "web",
+			"tags": ["nextjs", "directory", "seo"],
+			"isOrganization": false,
+			"default": true,
+			"featured": true,
+			"status": "production",
+			"avatarIcon": "folder-tree",
+			"template": {
+				"repo": "ever-works/directory-web-template",
+				"ref": "develop",
+				"sha": null,
+				"isGitHubTemplate": true
+			}
+		},
+		{
+			"slug": "directory-minimal",
+			"name": "Directory (Minimal)",
+			"title": "Minimal Directory Website",
+			"summary": "Lightweight Astro directory for fast, content-first listings with minimal moving parts and a small build footprint.",
+			"kind": "DIRECTORY",
+			"chipType": "directory",
+			"category": "web",
+			"tags": ["astro", "directory", "minimal"],
+			"isOrganization": false,
+			"default": false,
+			"status": "production",
+			"avatarIcon": "folder",
+			"template": {
+				"repo": "ever-works/directory-web-minimal-template",
+				"ref": "develop",
+				"sha": null,
+				"isGitHubTemplate": true
+			}
+		},
+		{
+			"slug": "marketing-site",
+			"name": "Marketing Site",
+			"title": "Marketing Website",
+			"summary": "Next.js marketing site with a landing page, feature sections, and content pages for launching a product or brand.",
+			"kind": "DEFAULT",
+			"chipType": "marketing",
+			"category": "web",
+			"tags": ["nextjs", "marketing", "landing"],
+			"isOrganization": false,
+			"default": true,
+			"status": "production",
+			"avatarIcon": "megaphone",
+			"template": {
+				"repo": "ever-works/ever-works-website-template",
+				"ref": "develop",
+				"sha": null,
+				"isGitHubTemplate": true
+			}
+		},
+		{
+			"slug": "company",
+			"name": "Company",
+			"title": "Company Website",
+			"summary": "An AI-staffed company site backed by an organization roster — teams, roles, and an about surface. Placeholder until the Company builder ships.",
+			"kind": "COMPANY",
+			"chipType": "company",
+			"category": "web",
+			"tags": ["company", "organization", "team"],
+			"isOrganization": true,
+			"default": true,
+			"status": "placeholder",
+			"avatarIcon": "building-2",
+			"template": {
+				"repo": null,
+				"ref": null,
+				"sha": null,
+				"isGitHubTemplate": false
+			}
+		},
+		{
+			"slug": "store",
+			"name": "Store",
+			"title": "eCommerce Store",
+			"summary": "An online store with a product catalog, cart, and checkout surface. Placeholder until the Store builder ships.",
+			"kind": "STORE",
+			"chipType": "store",
+			"category": "commerce",
+			"tags": ["ecommerce", "store", "commerce"],
+			"isOrganization": false,
+			"default": true,
+			"status": "placeholder",
+			"avatarIcon": "shopping-cart",
+			"template": {
+				"repo": null,
+				"ref": null,
+				"sha": null,
+				"isGitHubTemplate": false
+			}
+		},
+		{
+			"slug": "blog",
+			"name": "Blog",
+			"title": "Blog Website",
+			"summary": "A content-first blog with posts, tags, and an author surface. Placeholder until the Blog builder ships.",
+			"kind": "BLOG",
+			"chipType": "blog",
+			"category": "web",
+			"tags": ["blog", "content", "writing"],
+			"isOrganization": false,
+			"default": true,
+			"status": "placeholder",
+			"avatarIcon": "newspaper",
+			"template": {
+				"repo": null,
+				"ref": null,
+				"sha": null,
+				"isGitHubTemplate": false
+			}
+		},
+		{
+			"slug": "landing-page",
+			"name": "Landing Page",
+			"title": "Landing Page",
+			"summary": "A single-page, conversion-focused landing site with a hero, sections, and a call to action. Placeholder until the Landing builder ships.",
+			"kind": "LANDING",
+			"chipType": "landing",
+			"category": "web",
+			"tags": ["landing", "conversion", "single-page"],
+			"isOrganization": false,
+			"default": true,
+			"status": "placeholder",
+			"avatarIcon": "layout-template",
+			"template": {
+				"repo": null,
+				"ref": null,
+				"sha": null,
+				"isGitHubTemplate": false
+			}
+		},
+		{
+			"slug": "awesome",
+			"name": "Awesome List",
+			"title": "Awesome List Website",
+			"summary": "A curated awesome-list site — grouped links, categories, and search over a hand-picked collection. Placeholder until the Awesome builder ships.",
+			"kind": "AWESOME",
+			"chipType": "awesome",
+			"category": "web",
+			"tags": ["awesome", "list", "curated"],
+			"isOrganization": false,
+			"default": true,
+			"status": "placeholder",
+			"avatarIcon": "star",
+			"template": {
+				"repo": null,
+				"ref": null,
+				"sha": null,
+				"isGitHubTemplate": false
+			}
+		}
+	]
+}

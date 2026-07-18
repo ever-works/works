@@ -1,9 +1,11 @@
 # Ever Works — Works catalog
 
-> **Status: index-only.** This repo doesn't ship Work bodies — those
-> already live in dedicated template repos (`directory-web-template`,
-> `directory-web-minimal-template`, etc.). It indexes them, names the
-> conventions, and reserves the slug.
+> **Status: index.** This repo doesn't ship Work bodies — those already
+> live in dedicated template repos (`directory-web-template`,
+> `directory-web-minimal-template`, etc.). It ships `manifest.json`,
+> which indexes them, pins their defaults, and names the conventions.
+> Shapes whose builders aren't public yet are listed with
+> `status: placeholder` and a null template repo.
 
 This repository will be the **canonical index of Work blueprints**
 for the [Ever Works](https://ever.works) platform. A *Work blueprint*
@@ -40,37 +42,61 @@ This repo doesn't duplicate any of that. It exists to:
 3. **Track the lifecycle conventions** — what `kind` it is, whether
    it's an `organization`, what its publishing surface looks like.
 
-## What lives here (planned)
+## What lives here
 
 ```
+manifest.json                       # the catalog — hand-authored blueprint pointers
 schema/
-  work-blueprint.schema.json
-blueprints/
-  directory/
-    blueprint.yml             # template repo, providers, fields, mission
-    README.md
-  directory-minimal/
-  marketing-site/
-  company/
-  store/                      # placeholder until Store builder ships
-  desktop-app/                # placeholder until Desktop ships
-manifest.json
+  works-manifest.schema.json        # JSON Schema (draft 2020-12) for manifest.json
+scripts/
+  validate.mjs                      # schema + cross-field rules (CI gate)
+.github/workflows/validate.yml      # runs validate.mjs on push/PR
 ```
 
-Each `blueprint.yml` would reference an upstream template repo by
-URL/SHA and pin the wizard defaults. The Work entity's
+Each blueprint entry references an upstream template repo by
+`repo` + `ref`/`sha` and pins per-shape defaults. The Work entity's
 `storageProvider` / `deployProvider` defaults stay the source of
 truth; blueprints only override per-shape.
 
-## Initial blueprints we expect to land here first
+## Catalog
 
-| Slug | Template repo | Status |
-|---|---|---|
-| `directory` | `ever-works/directory-web-template` | Production. |
-| `directory-minimal` | `ever-works/directory-web-minimal-template` | Production. |
-| `marketing-site` | `ever-works/ever-works-website-template` | Production. |
-| `company` | TBD | Builder UX in flight (PR #1123 docs). |
-| `store` | TBD | Builder UX in flight (PR #1123 docs). |
+<!-- catalog:start -->
+| Slug | Blueprint | Kind | Chip | Status | Template repo |
+| --- | --- | --- | --- | --- | --- |
+| `directory` | Directory Website | DIRECTORY | directory | production | [`ever-works/directory-web-template`](https://github.com/ever-works/directory-web-template) ⭐ default |
+| `directory-minimal` | Minimal Directory Website | DIRECTORY | directory | production | [`ever-works/directory-web-minimal-template`](https://github.com/ever-works/directory-web-minimal-template) |
+| `marketing-site` | Marketing Website | DEFAULT | marketing | production | [`ever-works/ever-works-website-template`](https://github.com/ever-works/ever-works-website-template) ⭐ default |
+| `company` | Company Website | COMPANY | company | placeholder | — (Company builder in flight) |
+| `store` | eCommerce Store | STORE | store | placeholder | — (Store builder in flight) |
+| `blog` | Blog Website | BLOG | blog | placeholder | — |
+| `landing-page` | Landing Page | LANDING | landing | placeholder | — |
+| `awesome` | Awesome List Website | AWESOME | awesome | placeholder | — |
+<!-- catalog:end -->
+
+`⭐ default` marks the blueprint the wizard pre-selects for its chip
+family. Exactly one `default: true` is allowed per `chipType`.
+
+## How the platform consumes this
+
+The Workshop's "Create Work" wizard reads `manifest.json` and renders
+one card per blueprint — no platform release needed to add a shape.
+When the user picks a blueprint:
+
+1. **`manifest.json` → blueprint entry.** The wizard looks up the
+   chosen `slug` and reads its `kind`, `chipType`, `isOrganization`,
+   and `template`.
+2. **Fork `template.repo`.** For a `production` blueprint the platform
+   forks (or generates-from-template, when `isGitHubTemplate: true`)
+   the referenced `ever-works/<name>` repo at `template.sha ?? template.ref`
+   to create the Work body.
+3. **Stamp the Work.** `Work.kind` and `Work.organization` are set from
+   the blueprint; provider defaults on the Work entity stay the source
+   of truth and are only overridden per-shape.
+
+Blueprints with `status: placeholder` carry a null `template.repo`, so
+the catalog can list a shape (and reserve its chip) before the builder
+and its template repo are public — the wizard gates them out of the
+production create flow.
 
 ## Why this repo even exists
 
@@ -80,23 +106,33 @@ list would drift the moment we add a new blueprint, and changing it
 would require a platform release. Putting the index in its own repo
 keeps the wizard's content layer separate from its code layer.
 
-## Why nothing ships yet
+## What's still placeholder
 
-1. **The wizard already knows about the production template repos.**
-   No regression to fix.
-2. **The Company / Store builders are mid-flight.** We
-   don't want to publish a stub blueprint that points at a
-   not-yet-public template repo.
-3. **The blueprint schema is still in flux** — it will likely take
-   its final shape alongside ADR-010 (the unified Workshop Templates
-   catalog).
+1. **The production blueprints are live** — `directory`,
+   `directory-minimal`, and `marketing-site` point at real
+   `ever-works/*` template repos.
+2. **The Company / Store / Blog / Landing / Awesome builders are
+   mid-flight.** Their shapes are listed with `status: placeholder`
+   and a null template repo so the catalog reserves the chip without
+   pointing at a not-yet-public template repo.
+3. **The blueprint schema may still evolve** — it is likely to take
+   its final shape alongside the unified Workshop Templates catalog.
 
-## How to follow along
+## Contributing
 
-- The actual template repos (`directory-web-template` etc.) keep
-  shipping on their own cadence.
-- When this repo's first `blueprint.yml` lands, that's the signal the
-  Work-blueprint loader has a real consumer in the platform.
+Add or edit a blueprint entry in `manifest.json`, then run the
+validator locally:
+
+```
+npm install
+npm run validate     # node scripts/validate.mjs
+```
+
+The same check runs in CI on every push and pull request
+(`.github/workflows/validate.yml`). The validator enforces the schema
+plus slug uniqueness, exactly one `default: true` per `chipType`, and
+the status/template-repo coupling (placeholder ⇒ repo may be null;
+production/beta ⇒ an `ever-works/<name>` repo is required).
 
 ## License
 

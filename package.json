@@ -1,0 +1,12 @@
+{
+	"name": "@ever-works/works",
+	"private": true,
+	"type": "module",
+	"description": "Ever Works catalog of Work blueprints (pointers to upstream template repos)",
+	"scripts": {
+		"validate": "node scripts/validate.mjs"
+	},
+	"devDependencies": {
+		"ajv": "^8.17.1"
+	}
+}
