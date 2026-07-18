@@ -100,4 +100,5 @@ keeps the wizard's content layer separate from its code layer.
 
 ## License
 
-Private. Internal Ever Works use only for now.
+This repo (catalog) content is [Apache-2.0](LICENSE) licensed.  
+Each template repo has own license, see LICENSE/LICENSE.md files inside template repos.
