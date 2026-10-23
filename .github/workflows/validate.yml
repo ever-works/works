@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 26.12.1
       - run: npm install --no-audit --no-fund
       - run: node scripts/validate.mjs
